@@ -1606,6 +1606,12 @@ static struct ggml_tensor * ggml_new_tensor_impl(
         /*.view_src     =*/ view_src,
         /*.view_offs    =*/ view_offs,
         /*.data         =*/ obj_alloc_size > 0 ? (void *)(result + 1) : data,
+#if defined(GGML_USE_EOSL_HOST) || defined(GGML_USE_EOSL_DEVICE)
+        /* data_size     =*/ data_size,
+        /* id            =*/ 0,
+        /* tensor_buffer =*/ ctx->mem_buffer,
+        /* eosl_pad      =*/ { 0 },  // all elements 0
+#endif
         /*.name         =*/ { 0 },
         /*.extra        =*/ NULL,
         /*.padding      =*/ { 0 },

@@ -329,10 +329,14 @@ ggml_add_backend(RPC)
 ggml_add_backend(SYCL)
 ggml_add_backend(Vulkan)
 ggml_add_backend(OpenCL)
+ggml_add_backend(EOSL_HOST)
 
 foreach (target ggml-base ggml)
     target_include_directories(${target} PUBLIC    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include> $<INSTALL_INTERFACE:include>)
     target_compile_features   (${target} PRIVATE c_std_11 cxx_std_17) # don't bump
+    if (GGML_EOSL_HOST)
+        target_compile_definitions(${target} PUBLIC GGML_USE_EOSL_HOST)
+    endif()
 endforeach()
 
 target_link_libraries(ggml-base PRIVATE Threads::Threads)

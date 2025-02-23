@@ -599,6 +599,12 @@ extern "C" {
         size_t               view_offs;
 
         void * data;
+#if defined(GGML_USE_EOSL_HOST) || defined(GGML_USE_EOSL_DEVICE)
+        size_t  data_size;
+        size_t  id;
+        void    *tensor_buffer;
+        uint8_t eosl_padding[24]; // for GGML_MEM_ALIGN (16) padding
+#endif
 
         char name[GGML_MAX_NAME];
 
